@@ -1,0 +1,16 @@
+{
+  "name": "aws-python-sqs-worker",
+  "version": "1.0.0",
+  "description": "Serverless Framework Python SQS Producer-Consumer on AWS",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "sls offline start --printOutput"
+  },
+  "devDependencies": {
+    "serverless-offline": "^8.2.0"
+  },
+  "dependencies": {
+    "serverless-offline-sqs": "^5.0.0"
+  }
+}

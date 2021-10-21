@@ -1,0 +1,28 @@
+service: sqs-example
+provider:
+  name: aws
+  region: sa-east-1
+  runtime: nodejs14.x
+  lambdaHashingVersion: '20201221'
+
+constructs:
+  receiver:
+    type: queue
+    worker:
+      handler: handler.receiver
+
+functions:
+  producer:
+    handler: handler.producer
+    events:
+      - httpApi:
+          method: post
+          path: /produce
+    environment:
+      QUEUE_URL: ${construct:receiver.queueUrl}
+      QUEUE_ARN: ${construct:receiver.queueArn}
+
+plugins:
+  - serverless-lift
+  - serverless-webpack
+  - serverless-offline

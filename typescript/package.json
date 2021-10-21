@@ -1,0 +1,40 @@
+{
+  "name": "serverless-exemplo",
+  "version": "1.0.0",
+  "description": "Serverless example using serverless-lift plugin with TypeScript",
+  "main": "src/publisher.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "tslint -p tsconfig.json -c tslint.json"
+  },
+  "keywords": [
+    "serverless",
+    "serverles-lift",
+    "aws-sqs",
+    "aws-lambda"
+  ],
+  "author": "Otávio Cartaxo",
+  "license": "ISC",
+  "dependencies": {
+    "aws-lambda": "^0.1.2",
+    "aws-sdk": "^2.1011.0",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.15.0",
+    "@types/aws-lambda": "^8.10.27",
+    "@types/node": "^16.10.9",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "serverless": "^2.63",
+    "serverless-lift": "^1.9.1",
+    "serverless-offline": "^8.2.0",
+    "serverless-webpack": "^5.5.5",
+    "ts-loader": "^9.2.6",
+    "webpack": "^5.42.1"
+  }
+}
