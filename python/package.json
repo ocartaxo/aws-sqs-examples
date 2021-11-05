@@ -5,12 +5,17 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "start": "sls offline start --printOutput"
+    "start": "sls --config ./elasticmq/serverless.local.yml offline start",
+    "setup-service": "sh ./elasticmq/scripts/clean-start.sh",
+    "setup": "npm run -s setup-service sqs"
   },
   "devDependencies": {
-    "serverless-offline": "^8.2.0"
+    "serverless-offline": "^8.2.0",
+    "serverless-webpack": "^5.5.5"
   },
   "dependencies": {
-    "serverless-offline-sqs": "^5.0.0"
+    "aws-sdk": "^2.1013.0",
+    "serverless-offline-sqs": "^5.0.0",
+    "serverless-offline-ssm-provider": "^3.0.0"
   }
 }

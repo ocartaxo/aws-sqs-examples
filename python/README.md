@@ -1,4 +1,4 @@
-# Python Producer/Consumer on AWS SQS with Serverless
+# AWS SQS Example using Python
 
 ## Setup
 - Configure your [AWS Credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
@@ -33,15 +33,15 @@ api keys:
 endpoints:
   POST - https://XXXXXXXXXX.execute-api.sa-east-1.amazonaws.com/dev/produce
 functions:
-  producer: aws-python-sqs-dev-producer
-  consumer: aws-python-sqs-dev-consumer
+  producer: dev-python-producer
+  consumer: dev-python-consumer
 layers:
   None
 
 Toggle on monitoring with the Serverless Dashboard: run "serverless"
 ```
 
-##Invoke
+
 Calling the created API endpoint with `POST` request will invoke `producer` lambda function. See the example below
 ```
 curl --request POST 'https://xxxxxx.execute-api.us-east-1.amazonaws.com/produce' --header 'Content-Type: application/json' --data-raw '{"name": "Paul McCartney"}'
