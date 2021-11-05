@@ -1,0 +1,63 @@
+service: aws-offline-sqs
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-offline-sqs
+  - serverless-offline
+
+provider:
+  name: aws
+  region: sa-east-1
+  runtime: python3.8
+  lambdaHashingVersion: '20201221'
+  stage: dev
+
+functions:
+  producer:
+    handler: ./elasticmq/setup.producer
+    name: ${sls:stage}-offline-producer-lambda
+    events:
+      - http:
+          method: post
+          path: produce
+    environments:
+      QUEUE_URL:
+        Ref: workerQueue
+
+
+  consumer:
+    handler: ./elasticmq/setup.consumer
+    name: ${sls:stage}-offline-consumer-lambda
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - workerQueue
+              - Arn
+
+# resources:
+#   Resources:
+#     workerQueue:
+#       Type: AWS::SQS::Queue
+#       Properties:
+#         QueueName: workerQueue
+#         RedrivePolicy:
+#           deadLetterTargetArn:
+#             Fn::GetAtt:
+#               - workerDLQ
+#               - Arn
+#           maxReceiveCount: 5
+#     workerDLQ:
+#       Type: AWS::SQS::Queue
+#       Properties:
+#         QueueName: workerDLQ
+
+custom:
+  serverless-offline-sqs:
+    autoCreate: true                 
+    endpoint: http://0.0.0.0:9324
+    # region: ${self:provider.region}
+    accessKeyId: local
+    secretAccessKey: local
+    # skipCacheInvalidation: false

@@ -1,10 +1,6 @@
-service: aws-python-sqs
+service: aws-sqs-python
 
 frameworkVersion: '2'
-
-plugins:
-  - serverless-offline-sqs
-  - serverless-offline
   
 provider:
   name: aws
@@ -19,52 +15,44 @@ provider:
           Action:
             - sqs:SendMessage
           Resource:
-            - Fn::GetAtt: [ WorkerQueue, Arn ]
+            - Fn::GetAtt: [ workerQueue, Arn ]
 
 functions:
   producer:
     handler: handler.producer
+    name: ${sls:stage}-python-producer
     events:
       - http:
           method: post
           path: produce
     environment:
       QUEUE_URL:
-        Ref: WorkerQueue
+        Ref: workerQueue
 
   consumer:
     handler: handler.consumer
+    name: ${sls:stage}-python-consumer
     events:
       - sqs:
           batchSize: 1
           arn:
             Fn::GetAtt:
-              - WorkerQueue
+              - workerQueue
               - Arn
 
 resources:
   Resources:
-    WorkerQueue:
+    workerQueue:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: workerQueue-${self:provider.stage}
+        QueueName: workerQueue
         RedrivePolicy:
           deadLetterTargetArn:
             Fn::GetAtt:
-              - WorkerDLQ
+              - workerQueueDLQ
               - Arn
           maxReceiveCount: 5
-    WorkerDLQ:
+    workerQueueDLQ:
       Type: AWS::SQS::Queue
       Properties:
-        QueueName: workerDlq-${self:provider.stage}
-
-custom:
-  serverless-offline-sqs:
-    autoCreate: true                 # create queue if not exists
-    apiVersion: '2012-11-05'
-    endpoint: http://0.0.0.0:8000
-    region: eu-west-1
-    accessKeyId: root
-    secretAccessKey: root
-    skipCacheInvalidation: false
+        QueueName: workerQueueDLQ
